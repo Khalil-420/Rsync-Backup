@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  rsync_microservice:
+    build: .
+    container_name: backup_microservice
+    environment:
+      EMAIL_HOST: "smtp.gmail.com"
+      EMAIL_PORT: 465
+      EMAIL_HOST_USER: "mail@gmail.com"
+      EMAIL_HOST_PASSWORD: "app password"
+      EMAIL_FROM: "mail@gmail.com"
+      EMAIL_TO: "destination@mail.com"
+      EMAIL_CC: "mail1@mail.co,mail2@mail.co"
+      SSH_KEY_PATH: "/path/to/ssh/private/key"
+      BACKUP_ROOT_PATH: "/path/to/backup"
+    volumes:
+      - /home/$HOME/.ssh/id_rsa:/id_rsa:ro
+      - /home/$HOME/rsync_backup:/rsync_path
+      - /home/$HOME/backup.db:/app/app/db/backup.db
+    ports:
+      - "8000:8000"
+
